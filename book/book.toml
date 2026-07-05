@@ -1,0 +1,7 @@
+[book]
+title = "Robotics Camp 2026"
+authors = ["Elliot Segal"]
+language = "en"
+
+[build]
+build-dir = "../docs"

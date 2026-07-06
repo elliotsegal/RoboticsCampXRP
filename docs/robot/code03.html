@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-03b366a6.js";
+            window.path_to_searchindex_js = "../searchindex-72129cc1.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-ecbc0e9e.js"></script>
+        <script src="../toc-20be79f5.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -175,6 +175,50 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="follow-by-maintaining-distance"><a class="header" href="#follow-by-maintaining-distance">Follow by maintaining distance</a></h1>
+<p>Now let’s set up an autonomous routine that will use the rangefinder to maintain a distance from an object. What this means is that if the robot is too close to the object, it will back up, and if it is too far, it will drive forward. If you point the robot at your foot and walk away from it, it should follow you without getting too close.</p>
+<p>The project comes with two autonomous routines that can be selected on the dashboard. The default, “Distance”, drives forward 10 inches, then turns around and comes back. The other one, “Follow”, will need some changes before it does what we want.</p>
+<blockquote>
+<p>Try out both autonomous routines.</p>
+</blockquote>
+<p>Right now the “Follow” routine just drives forward forever! That’s no good. Let’s change it.</p>
+<blockquote>
+<p>Open commands/AutonomousFollow.java</p>
+</blockquote>
+<p>We have all the parts we need here, except for the conditions that tell us if we’re too close or too far. First let’s look at the variables:</p>
+<pre><code class="language-java">private static final double SPEED = 0.75;
+private static final double FOLLOW_DISTANCE = 15;
+</code></pre>
+<p>These are called constants, and are useful for numbers that get used in multiple places, as well as making code more readable. Anywhere that you see <code>SPEED</code> in the code below becomes 0.75. If we changed the constant to be <code>private static final double SPEED = 1;</code>, then all the speeds would become 1 instead, which saves us the trouble of editing each line.</p>
+<p>Now let’s look at the routine itself:</p>
+<pre><code class="language-java">addCommands(
+    Commands.repeatingSequence(
+        // Drive forward while far from the object
+        new DriveSpeed(drivetrain, SPEED).onlyWhile(() -&gt; true),
+        // Drive backward while close to the object
+        new DriveSpeed(drivetrain, -SPEED).onlyWhile(() -&gt; false)
+    )
+);
+</code></pre>
+<p><code>Commands.repeatingSequence</code> repeats the list of commands forever. There are two commands that get repeated. The first drives forward, and the second drives backward (notice the minus sign in front of <code>SPEED</code>). They also both have a condition, added with the <code>onlyWhile</code> function: the command will only run while the condition after the <code>-&gt;</code> is true. Right now though, the first one has <code>true</code> as its condition, meaning it runs forever, and the second has <code>false</code>, meaning it never runs.</p>
+<p>We’ll need to replace the words <code>true</code> and <code>false</code> with the actual conditions for these commands. As the comments say, the first should check if the robot is far away from something, and the second should check if its close to something.</p>
+<p>We can use the rangefinder sensor for this – notice that right above <code>addCommands</code>, <code>AutonomousFollow</code> already has an argument for <code>XRPRangefinder rangefinder</code>, meaning it’s available to use in this code with the name <code>rangefinder</code>. To check if the robot is far away from something, you can do this:</p>
+<pre><code class="language-java">rangefinder.getDistanceInches() &gt; FOLLOW_DISTANCE
+</code></pre>
+<p>We’re using the <code>FOLLOW_DISTANCE</code> constant here, which is set as 15 above. So this code checks if the distance reported by the rangefinder is greater than 15 inches.</p>
+<blockquote>
+<p>Replace <code>true</code> with the code above to run the first command only while the robot is more than 15 inches away from something.</p>
+</blockquote>
+<blockquote>
+<p>Replace <code>false</code> with the opposite condition, so that it only runs while the robot is LESS than 15 inches away from something.</p>
+</blockquote>
+<blockquote>
+<p>Run the “Follow” autonomous routine.</p>
+</blockquote>
+<p>You’ll notice that while this basically works, rather than stopping when the robot is 15 inches from something, it wiggles back and forth. Use the dashboard to look at the value of the rangefinder. Can you figure out why this is happening?</p>
+<p>The problem is the robot will never be precisely 15 inches away from something – it will always be slightly off, for example 14.99 or 15.01. This causes the code to rapidly switch between driving forward and backward.</p>
+<p>How can we fix this? Instead of having the robot try to land on exactly 15 inches, we can use a “dead zone”, where there’s some range that the robot doesn’t move. For example, you could change the first condition to have the robot drive forward when it’s more than 16 inches away, but keep the second condition the same. That way the robot won’t move if it’s between 15 and 16 inches away. Try making that change and seeing if it fixes the problem.</p>
+<h3 id="lambdas"><a class="header" href="#lambdas">Lambdas</a></h3>
+<p>Normally the robot runs all of your code right when it turns on. When your code creates commands, they are saved by the robot to be run when needed, for example when you enter autonomous mode. For conditions and certain other things, it’s important that the robot checks the condition when it’s running the command, not when it’s first turned on. The special syntax <code>() -&gt;</code> creates a <em>lambda</em>, which captures a bit of code without running it. That way, the command can save a piece of code and run it as many times as it needs.</p>
 
                     </main>
 

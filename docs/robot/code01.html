@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-03b366a6.js";
+            window.path_to_searchindex_js = "../searchindex-72129cc1.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-ecbc0e9e.js"></script>
+        <script src="../toc-20be79f5.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -176,9 +176,9 @@
                     <main>
                         <h1 id="show-info-on-the-dashboard"><a class="header" href="#show-info-on-the-dashboard">Show info on the dashboard</a></h1>
 <p>First we’re going to add some more information to the dashboard.</p>
-<ul>
-<li>Open RobotContainer.java and look for the <code>dashboardPeriodic()</code> function</li>
-</ul>
+<blockquote>
+<p>Open RobotContainer.java and look for the <code>dashboardPeriodic()</code> function.</p>
+</blockquote>
 <p>This function currently has one comment and one line of code:</p>
 <pre><code class="language-java">public void dashboardPeriodic() {
     // Update the dashboard
@@ -196,7 +196,7 @@ SmartDashboard.putNumber("Line Follower Right", lineFollower.getRightReflectance
 <li>Drivetrain distance traveled (add a new <code>SmartDashboard.putNumber</code> with <code>drivetrain.getAverageDistanceInch()</code> as the second argument)</li>
 <li>Gyro angle (add a new <code>SmartDashboard.putNumber</code> with <code>drivetrain.getGyroAngleZ()</code> as the second argument)</li>
 </ul>
-<p>Let’s also add the robot’s average acceleration. You can call <code>drivetrain.getAccelX()</code> to get the robot’s acceleration on the x-axis, and there are corresponding functions for the y- and z-axis. However, we want the average of all three. You can calculate the average and store it in a variable like this:</p>
+<p>Let’s also add the robot’s average acceleration. You can call <code>drivetrain.getAccelX()</code> to get the robot’s acceleration on the x-axis, and there are corresponding functions for the y- and z-axes. However, we want the average of all three. You can calculate the average and store it in a variable like this:</p>
 <pre><code class="language-java">double averageAccel = (drivetrain.getAccelX() + drivetrain.getAccelY() + drivetrain.getAccelZ()) / 3;
 </code></pre>
 <p>Now add a new <code>SmartDashboard.putNumber</code> with <code>averageAccel</code> as the second argument to display the calculated average on the dashboard.</p>

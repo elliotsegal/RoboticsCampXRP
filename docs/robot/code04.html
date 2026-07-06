@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-03b366a6.js";
+            window.path_to_searchindex_js = "../searchindex-72129cc1.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-ecbc0e9e.js"></script>
+        <script src="../toc-20be79f5.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -175,6 +175,53 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="move-back-and-forth-while-a-button-is-held"><a class="header" href="#move-back-and-forth-while-a-button-is-held">Move back and forth while a button is held</a></h1>
+<p>Let’s give the robot the ability to ram things by driving back and forth. First, we’ll set this up as a new autonomous routine, then we’ll attach it to a button.</p>
+<p>Make a new file in the commands folder called BackAndForth.java. Here’s some code to get started:</p>
+<pre><code class="language-java">// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.commands;
+
+import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
+/**
+ * This command repeatedly drives forward and backward.
+ */
+public class BackAndForth extends SequentialCommandGroup {
+
+    private static final double SPEED = 1;
+    private static final double DISTANCE = 10;
+
+    public BackAndForth(Drivetrain drivetrain) {
+        addCommands(
+            Commands.repeatingSequence(
+                // commands go here
+            )
+        );
+    }
+
+}
+</code></pre>
+<p>You will need to add two <code>DriveDistance</code> commands, one to drive forward and one to drive backward. Look at commands/AutonomousDistance.java for an example of <code>DriveDistance</code>, and try to use the constants <code>SPEED</code> and <code>DISTANCE</code> (use <code>-SPEED</code> to drive backward).</p>
+<p>Let’s set this up as an autonomous routine to test it out. Open RobotContainer.java and find the <code>configureAutonomousRoutines()</code> function. Add this line below the other autonomous routines, but ABOVE the <code>SmartDashboard.putData</code> line:</p>
+<pre><code class="language-java">autonomousChooser.addOption("Back and Forth", new BackAndForth(drivetrain));
+</code></pre>
+<p>If you get an error on <code>BackAndForth</code>, click on it, then click on the lightbulb icon to the left and select the first option, “Import ‘BackAndForth’”.</p>
+<blockquote>
+<p>Run the “Back and Forth” autonomous routine.</p>
+</blockquote>
+<p>Does it work? Adjust the <code>SPEED</code> and <code>DISTANCE</code> as desired.</p>
+<p>Now let’s attach it to a button. There’s code to do this already in <code>configureTeleopBindings()</code>, it just needs to be uncommented:</p>
+<pre><code class="language-java">// Hold the B button to ram
+controller.b().whileTrue(new BackAndForth(drivetrain));
+</code></pre>
+<blockquote>
+<p>Try the command by holding the B button in teleop mode.</p>
+</blockquote>
+<p>Notice that we’re using <code>whileTrue</code> to run this command, instead of <code>onTrue</code> like we did for the bumpers. This means the command will run as long as the button is held down, and will stop as soon as the button is released. This works well for commands that run forever, like <code>BackAndForth</code>.</p>
+<p>Also notice that we’ve attached an entire autonomous routine to a button! This way the robot can take very complex actions in teleop mode by just pressing a button. Try holding down the B button and pressing the bumpers at the same time to see what happens when multiple commands run at once.</p>
 
                     </main>
 

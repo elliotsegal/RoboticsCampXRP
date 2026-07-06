@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-03b366a6.js";
+            window.path_to_searchindex_js = "../searchindex-72129cc1.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-ecbc0e9e.js"></script>
+        <script src="../toc-20be79f5.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -177,21 +177,25 @@
                         <h1 id="turn-when-a-button-is-pressed"><a class="header" href="#turn-when-a-button-is-pressed">Turn when a button is pressed</a></h1>
 <p>Let’s set up two controller buttons to make the robot quickly turn 90 degrees.</p>
 <p>We can do this easily using commands. There’s already a command to turn the robot some number of degrees, we just need to set up the code so that command is run when we press a button.</p>
-<ul>
-<li>Open RobotContainer.java and look for the <code>configureTeleopBindings()</code> function</li>
-</ul>
+<blockquote>
+<p>Open RobotContainer.java and look for the <code>configureTeleopBindings()</code> function.</p>
+</blockquote>
 <p>This function has all of the controls for teleop mode. By default the robot will use the <code>ArcadeDrive</code> command, which uses the left stick of the controller to move and turn. We can have it run a different command when a button is pressed with this code:</p>
-<pre><code class="language-java">controller.leftBumper().onTrue(/* command goes here */);
+<pre><code class="language-java">controller.leftBumper().onTrue( /*command goes here*/ );
 </code></pre>
 <p>After that command is run, the robot will go back to the <code>ArcadeDrive</code> command. The command we want is <code>TurnDegrees</code>. To have the robot turn 90 degrees, we create a new command like this:</p>
 <pre><code class="language-java">new TurnDegrees(drivetrain, 1, 90)
 </code></pre>
 <p>The first argument is the drivetrain. In this case, we’ve created our drivetrain at the top of the <code>RobotContainer</code> class, and now we’re handing it off to the command. The second argument is the speed (1 means full speed), and the third argument is the number of degrees.</p>
-<ul>
-<li>Uncomment the two lines in <code>configureTeleopBindings()</code> that start with <code>controller.leftBumper()</code> and <code>controller.rightBumper()</code></li>
-<li>For the left bumper, inside parentheses after <code>onTrue</code>, put the code above that creates the <code>TurnDegrees</code> command</li>
-<li>Do the same for the right bumper, but change the command to rotate negative 90 degrees</li>
-</ul>
+<blockquote>
+<p>Uncomment the two lines in <code>configureTeleopBindings()</code> that start with <code>controller.leftBumper()</code> and <code>controller.rightBumper()</code></p>
+</blockquote>
+<blockquote>
+<p>For the left bumper, inside the parentheses after <code>onTrue</code>, put the code above that creates the <code>TurnDegrees</code> command.</p>
+</blockquote>
+<blockquote>
+<p>Do the same for the right bumper, but change the command to rotate negative 90 degrees.</p>
+</blockquote>
 
                     </main>
 

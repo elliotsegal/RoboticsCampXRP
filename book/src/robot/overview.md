@@ -2,7 +2,7 @@
 
 The project files are shown on the left side of Visual Studio Code (you may need to click the "two pages" icon in the upper left if the sidebar is hidden or showing something else). Most of the files are configuration, the code is all inside the "src" folder.
 
-* Expand src/main/java/frc/robot to see the project code
+> Expand src/main/java/frc/robot to see the project code.
 
 Inside the project, you will mainly be working in RobotContainer.java and the files in the commands folder.
 
@@ -36,6 +36,6 @@ This file also contains three important functions that you will be adding code t
 * `configureAutonomousRoutines()`: Adds all of the autonomous routines to `autonomousChooser` so they can be selected on the dashboard.
 * `dashboardPeriodic()`: Displays information on the dashboard.
 
-## commands folder
+## The commands folder
 
 This folder contains the commands, or actions, your robot can do. Some commands just do one thing, like DriveSpeed.java, and some commands are made up of other commands, like AutonomousDistance.java.
